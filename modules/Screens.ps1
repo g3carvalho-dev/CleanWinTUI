@@ -67,7 +67,7 @@ function Show-WelcomeScreen {
             Tui-PutCentered ($script:TH - 3) 'Dica: abra no Windows Terminal para o melhor visual' 'yellow'
         }
 
-        Draw-Footer @(@(@('enter', 'iniciar'), @('q', 'sair')))
+        Draw-Footer @(@('enter', 'iniciar'), @('q', 'sair'))
         Tui-Render
 
         $k = Tui-ReadKey
@@ -93,16 +93,16 @@ function Show-GroupsIntro {
         foreach ($g in $script:App.GroupOrder) {
             $color = Get-GroupColor $g
             Tui-Box $cardX $y $cardW $cardH $g $color 'base' $color
-            $line1 = (Get-GroupTagText $g)
+            $line1 = Tui-Truncate (Get-GroupTagText $g) ($cardW - 4)
             Tui-Put ($cardX + 2) ($y + 1) $line1 'fg' 'base'
             if ($cardH -ge 4) {
-                Tui-Put ($cardX + 2) ($y + 2) $script:GroupBlurb[$g] 'muted' 'base'
+                Tui-Put ($cardX + 2) ($y + 2) (Tui-Truncate $script:GroupBlurb[$g] ($cardW - 4)) 'muted' 'base'
             }
             $y += $cardH + $gap
             if ($y + $cardH -gt $script:TH - 3) { break }
         }
 
-        Draw-Footer @(@(@('enter', 'continuar'), @('esc', 'voltar')))
+        Draw-Footer @(@('enter', 'continuar'), @('esc', 'voltar'))
         Tui-Render
 
         $k = Tui-ReadKey
@@ -147,7 +147,11 @@ function Draw-ItemDetails {
 
     $color = Get-GroupColor $Item.group
     Tui-Put ($X + 2) $line (Get-GroupBadge $Item.group) 'base' $color
-    Tui-Put ($X + 2 + $Item.group.Length + 2) $line ("· " + $script:GroupRisks[$Item.group]) 'muted' 'base'
+    $riskX = $X + 2 + $Item.group.Length + 2
+    $maxRisk = ($X + $W - 2) - $riskX
+    if ($maxRisk -gt 0) {
+        Tui-Put $riskX $line (Tui-Truncate ('· ' + $script:GroupRisks[$Item.group]) $maxRisk) 'muted' 'base'
+    }
     $line++
 
     $rev = if ($Item.reversible -eq 'yes') { 'reversível: sim' } else { 'reversível: parcial' }
@@ -380,8 +384,8 @@ function Show-ReviewScreen {
             Tui-Put $x ($panelY + 1) $label 'base' (Get-GroupColor $g)
             $x += $label.Length + 3
         }
-        Tui-Put ($panelX + 2) ($panelY + 3) ("Ponto de restauração: {0}" -f $(if (Test-HasCriticalSelection) { 'obrigatório' } else { 'recomendado, será tentado' })) 'muted' 'base'
-        Tui-Put ($panelX + 2) ($panelY + 4) ("Modo transação: {0}" -f $(if (Test-HasCriticalSelection) { 'ATIVO · rollback automático em caso de erro' } else { 'não necessário' })) 'muted' 'base'
+        Tui-Put ($panelX + 2) ($panelY + 3) (Tui-Truncate ("Ponto de restauração: {0}" -f $(if (Test-HasCriticalSelection) { 'obrigatório' } else { 'recomendado, será tentado' })) ($panelW - 4)) 'muted' 'base'
+        Tui-Put ($panelX + 2) ($panelY + 4) (Tui-Truncate ("Modo transação: {0}" -f $(if (Test-HasCriticalSelection) { 'ATIVO · rollback automático em caso de erro' } else { 'não necessário' })) ($panelW - 4)) 'muted' 'base'
 
         $listY = $panelY + $panelH + 1
         $listH = $script:TH - $listY - 2
@@ -399,7 +403,7 @@ function Show-ReviewScreen {
                 $item = $selected[$idx]
                 $y = $listY + 1 + $i
                 Tui-Put 3 $y ([char]0x2022).ToString() (Get-GroupColor $item.group) 'base'
-                $tagX = [Math]::Max(60, $script:TW - 34)
+                $tagX = [Math]::Max(26, $script:TW - 34)
                 Tui-Put 5 $y (Tui-Truncate $item.title ([Math]::Max(20, $tagX - 7))) 'fg' 'base'
                 Tui-Put $tagX $y (Get-GroupBadge $item.group) 'base' (Get-GroupColor $item.group)
                 Tui-Put ($tagX + 14) $y ("{0} ação(ões)" -f @($item.actions).Count) 'dim' 'base'
@@ -407,9 +411,9 @@ function Show-ReviewScreen {
         }
 
         if (Test-HasCriticalSelection) {
-            Tui-PutCentered ($script:TH - 2) 'Itens de risco médio/alto exigem confirmação digitada na próxima etapa' 'yellow'
+            [void](Tui-PutWrappedCentered ($script:TH - 3) ($script:TW - 8) 'Itens de risco médio/alto exigem confirmação digitada na próxima etapa' 'yellow')
         } else {
-            Tui-PutCentered ($script:TH - 2) 'Você poderá revisar a simulação antes de executar' 'dim'
+            [void](Tui-PutWrappedCentered ($script:TH - 3) ($script:TW - 8) 'Você poderá revisar a simulação antes de executar' 'dim')
         }
 
         Draw-Footer @(
@@ -505,26 +509,35 @@ function Show-ConfirmScreen {
         $boxW = [Math]::Min(84, $script:TW - 8)
         $boxX = [int](($script:TW - $boxW) / 2)
         $boxY = 6
-        $boxH = 9
+        $inner = $boxW - 4
 
         if ($critical) {
-            Tui-Box $boxX $boxY $boxW $boxH 'ATENÇÃO' 'red' 'base' 'red'
-            $y = $boxY + 1
             $texts = @(
                 'A seleção inclui itens de risco médio ou alto.',
                 'O modo transação será ativado antes da primeira alteração.',
-                'Se qualquer ação falhar, o CleanWinTUI tentará reverter tudo',
-                'na ordem inversa. O ponto de restauração permanece como',
-                'último recurso garantido.'
+                'Se qualquer ação falhar, o CleanWinTUI tentará reverter tudo na ordem inversa.',
+                'O ponto de restauração permanece como último recurso garantido.'
             )
-            foreach ($t in $texts) {
+            $wrapped = @()
+            foreach ($t in $texts) { $wrapped += (Tui-Wrap $t $inner) }
+            $boxH = $wrapped.Count + 2
+            Tui-Box $boxX $boxY $boxW $boxH 'ATENÇÃO' 'red' 'base' 'red'
+            $y = $boxY + 1
+            foreach ($t in $wrapped) {
                 Tui-Put ($boxX + 2) $y $t 'fg' 'base'
                 $y++
             }
         } else {
+            $wrapped = @()
+            $wrapped += (Tui-Wrap 'Somente itens de baixo risco selecionados.' $inner)
+            $wrapped += (Tui-Wrap 'Ponto de restauração será tentado antes de qualquer alteração.' $inner)
+            $boxH = $wrapped.Count + 2
             Tui-Box $boxX $boxY $boxW $boxH 'PRONTO PARA EXECUTAR' 'green' 'base' 'green'
-            Tui-Put ($boxX + 2) ($boxY + 1) 'Somente itens de baixo risco selecionados.' 'fg' 'base'
-            Tui-Put ($boxX + 2) ($boxY + 2) 'Ponto de restauração será tentado antes de qualquer alteração.' 'muted' 'base'
+            $y = $boxY + 1
+            foreach ($t in $wrapped) {
+                Tui-Put ($boxX + 2) $y $t 'fg' 'base'
+                $y++
+            }
         }
 
         $promptY = $boxY + $boxH + 2
@@ -561,13 +574,12 @@ function Show-PreflightScreen {
     $steps.Add(@{ Label = 'Manifesto da sessão'; State = 'pending'; Detail = '' })
     $steps.Add(@{ Label = 'Modo transação'; State = 'pending'; Detail = '' })
 
-    $boxW = [Math]::Min(96, $script:TW - 8)
-    $boxX = [int](($script:TW - $boxW) / 2)
-    $boxY = 3
-    $boxH = 13
-
     $draw = {
         Initialize-Frame -Right 'preparação' -Badge $(if ($critical) { 'TRANSACAO' } else { '' }) -BadgeColor 'orange'
+        $boxW = [Math]::Min(96, $script:TW - 8)
+        $boxX = [int](($script:TW - $boxW) / 2)
+        $boxY = 3
+        $boxH = 13
         Tui-PutCentered 2 'PREPARAÇÃO DE SEGURANÇA' 'fg'
         Tui-Box $boxX $boxY $boxW $boxH 'ETAPAS' 'line' 'base' 'accent'
         $y = $boxY + 1
@@ -579,11 +591,11 @@ function Show-PreflightScreen {
             if ($s.State -eq 'warn') { $sym = '!'; $color = 'yellow' }
             if ($s.State -eq 'fail') { $sym = [char]0x2717; $color = 'red' }
             Tui-Put ($boxX + 2) $y ([string]$sym) $color 'base'
-            Tui-Put ($boxX + 4) $y (Tui-Truncate $s.Label 34) 'fg' 'base'
-            Tui-Put ($boxX + 40) $y (Tui-Truncate $s.Detail ($boxW - 42)) 'muted' 'base'
+            Tui-Put ($boxX + 4) $y (Tui-Truncate $s.Label 20) 'fg' 'base'
+            Tui-Put ($boxX + 26) $y (Tui-Truncate $s.Detail ($boxW - 28)) 'muted' 'base'
             $y++
         }
-        Tui-PutCentered ($script:TH - 2) 'Se algo falhar, a execução pode ser bloqueada conforme o risco da seleção' 'dim'
+        [void](Tui-PutWrappedCentered ($script:TH - 3) ($script:TW - 8) 'Se algo falhar, a execução pode ser bloqueada conforme o risco da seleção' 'dim')
         Tui-Render
     }
 
@@ -606,16 +618,29 @@ function Show-PreflightScreen {
         if ($critical) {
             while ($true) {
                 Initialize-Frame -Right 'preparação' -Badge 'BLOQUEADO' -BadgeColor 'red'
-                Tui-PutCentered 3 'EXECUÇÃO BLOQUEADA' 'red'
+                Tui-PutCentered 2 'EXECUÇÃO BLOQUEADA' 'red'
                 $w2 = [Math]::Min(88, $script:TW - 8)
+                $inner = $w2 - 4
+                $msgs = New-Object System.Collections.Generic.List[object]
+                foreach ($ln in (Tui-Wrap 'Itens de risco médio/alto exigem um ponto de restauração.' $inner)) { $msgs.Add(@{ Text = $ln; Fg = 'fg' }) }
+                $msgs.Add(@{ Text = ''; Fg = 'muted' })
+                foreach ($ln in (Tui-Wrap ('Detalhe: ' + $restore.Message) $inner)) { $msgs.Add(@{ Text = $ln; Fg = 'muted' }) }
+                $msgs.Add(@{ Text = ''; Fg = 'muted' })
+                $msgs.Add(@{ Text = 'Como resolver:'; Fg = 'yellow' })
+                foreach ($step in @('1. Abra sysdm.cpl > Proteção do Sistema', '2. Selecione o disco do sistema e clique em Configurar', '3. Ative a proteção e volte para tentar novamente')) {
+                    foreach ($ln in (Tui-Wrap $step $inner)) { $msgs.Add(@{ Text = $ln; Fg = 'muted' }) }
+                }
+                $boxH = $msgs.Count + 2
+                if ($boxH -gt $script:TH - 5) { $boxH = $script:TH - 5 }
                 $x2 = [int](($script:TW - $w2) / 2)
-                Tui-Box $x2 5 $w2 9 'PONTO DE RESTAURAÇÃO NÃO CRIADO' 'red' 'base' 'red'
-                Tui-Put ($x2 + 2) 6 'Itens de risco médio/alto exigem um ponto de restauração.' 'fg' 'base'
-                Tui-Put ($x2 + 2) 7 ('Detalhe: ' + (Tui-Truncate $restore.Message ($w2 - 12))) 'muted' 'base'
-                Tui-Put ($x2 + 2) 9 'Como resolver:' 'yellow' 'base'
-                Tui-Put ($x2 + 2) 10 '1. Abra sysdm.cpl > Proteção do Sistema' 'muted' 'base'
-                Tui-Put ($x2 + 2) 11 '2. Selecione o disco do sistema e clique em Configurar' 'muted' 'base'
-                Tui-Put ($x2 + 2) 12 '3. Ative a proteção e volte para tentar novamente' 'muted' 'base'
+                $boxY = 4
+                Tui-Box $x2 $boxY $w2 $boxH 'PONTO DE RESTAURAÇÃO NÃO CRIADO' 'red' 'base' 'red'
+                $y = $boxY + 1
+                foreach ($m in $msgs) {
+                    if ($y -ge $boxY + $boxH - 1) { break }
+                    Tui-Put ($x2 + 2) $y $m.Text $m.Fg 'base'
+                    $y++
+                }
                 Draw-Footer @(@('r', 'tentar de novo'), @('esc', 'abortar'))
                 Tui-Render
                 $k = Tui-ReadKey
@@ -631,9 +656,12 @@ function Show-PreflightScreen {
             while ($true) {
                 Initialize-Frame -Right 'preparação' -Badge 'SEM PONTO' -BadgeColor 'yellow'
                 Tui-PutCentered 3 'PONTO DE RESTAURAÇÃO NÃO CRIADO' 'yellow'
-                Tui-PutCentered 5 'A seleção contém apenas itens de baixo risco.' 'fg'
-                Tui-PutCentered 6 ('Detalhe: ' + (Tui-Truncate $restore.Message ($script:TW - 10))) 'muted'
-                Tui-PutCentered 8 'Você pode continuar, mas o Restore-Plan será sua principal rede de segurança.' 'muted'
+                $textW = $script:TW - 8
+                $y = 5
+                $y = Tui-PutWrappedCentered $y $textW 'A seleção contém apenas itens de baixo risco.' 'fg'
+                $y = Tui-PutWrappedCentered $y $textW ('Detalhe: ' + $restore.Message) 'muted'
+                $y++
+                $y = Tui-PutWrappedCentered $y $textW 'Você pode continuar, mas o Restore-Plan será sua principal rede de segurança.' 'muted'
                 Draw-Footer @(@('c', 'continuar assim'), @('r', 'tentar de novo'), @('esc', 'abortar'))
                 Tui-Render
                 $k = Tui-ReadKey
@@ -725,6 +753,7 @@ function Show-PreflightScreen {
     Start-Sleep -Milliseconds 350
 
     while ($true) {
+        & $draw
         Draw-Footer @(@('enter', 'executar'), @('esc', 'voltar'))
         Tui-Render
         $k = Tui-ReadKey
@@ -771,13 +800,14 @@ function Show-ReportScreen {
         Tui-Put ($boxX + 2) ($boxY + 9) 'Backups' 'muted' 'base'
         Tui-Put ($boxX + 18) ($boxY + 9) (Tui-Truncate (Join-Path $script:App.SessionPath 'backup') ($boxW - 21)) 'fg' 'base'
 
+        $textW = $script:TW - 8
         if ($Summary.RolledBack) {
-            Tui-PutCentered ($boxY + 13) 'As alterações foram revertidas automaticamente.' 'yellow'
-            Tui-PutCentered ($boxY + 14) 'Se algo ainda parecer alterado, use o ponto de restauração (rstrui.exe).' 'muted'
+            $ty = Tui-PutWrappedCentered ($boxY + 13) $textW 'As alterações foram revertidas automaticamente.' 'yellow'
+            [void](Tui-PutWrappedCentered $ty $textW 'Se algo ainda parecer alterado, use o ponto de restauração (rstrui.exe).' 'muted')
         } elseif ($fail -gt 0) {
-            Tui-PutCentered ($boxY + 13) 'Algumas ações falharam. Consulte o log e o Restore-Plan.' 'red'
+            [void](Tui-PutWrappedCentered ($boxY + 13) $textW 'Algumas ações falharam. Consulte o log e o Restore-Plan.' 'red')
         } else {
-            Tui-PutCentered ($boxY + 13) 'Reinicie o Explorador ou o sistema para aplicar todos os ajustes de interface.' 'muted'
+            [void](Tui-PutWrappedCentered ($boxY + 13) $textW 'Reinicie o Explorador ou o sistema para aplicar todos os ajustes de interface.' 'muted')
         }
 
         Draw-Footer @(@('enter', 'sair'))

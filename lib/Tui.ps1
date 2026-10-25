@@ -172,6 +172,28 @@ function Tui-PutRight {
     Tui-Put $x $Y $Text $Fg $Bg
 }
 
+function Tui-PutWrapped {
+    param([int]$X, [int]$Y, [int]$Width, [string]$Text, [string]$Fg = 'fg', [string]$Bg = 'base')
+    $cy = $Y
+    foreach ($ln in (Tui-Wrap $Text $Width)) {
+        if ($cy -ge $script:TH) { break }
+        Tui-Put $X $cy $ln $Fg $Bg
+        $cy++
+    }
+    return $cy
+}
+
+function Tui-PutWrappedCentered {
+    param([int]$Y, [int]$Width, [string]$Text, [string]$Fg = 'fg', [string]$Bg = 'base')
+    $cy = $Y
+    foreach ($ln in (Tui-Wrap $Text $Width)) {
+        if ($cy -ge $script:TH) { break }
+        Tui-PutCentered $cy $ln $Fg $Bg
+        $cy++
+    }
+    return $cy
+}
+
 function Tui-Truncate {
     param([string]$Text, [int]$Width)
     if ($null -eq $Text) { return '' }
@@ -274,39 +296,62 @@ function Tui-Render {
 }
 
 function Tui-ReadKey {
-    try {
-        $k = [Console]::ReadKey($true)
-    } catch {
-        Start-Sleep -Milliseconds 40
-        return @{ Key = 'none'; Char = '' }
-    }
-    if (($k.Modifiers -band [ConsoleModifiers]::Control) -ne 0) {
-        if ($k.Key -eq [ConsoleKey]::C) { return @{ Key = 'ctrl-c'; Char = '' } }
-        return @{ Key = 'ctrl'; Char = '' }
-    }
-    switch ($k.Key) {
-        ([ConsoleKey]::UpArrow)    { return @{ Key = 'up'; Char = '' } }
-        ([ConsoleKey]::DownArrow)  { return @{ Key = 'down'; Char = '' } }
-        ([ConsoleKey]::LeftArrow)  { return @{ Key = 'left'; Char = '' } }
-        ([ConsoleKey]::RightArrow) { return @{ Key = 'right'; Char = '' } }
-        ([ConsoleKey]::Enter)      { return @{ Key = 'enter'; Char = '' } }
-        ([ConsoleKey]::Escape)     { return @{ Key = 'esc'; Char = '' } }
-        ([ConsoleKey]::Spacebar)   { return @{ Key = 'space'; Char = ' ' } }
-        ([ConsoleKey]::Tab)        { return @{ Key = 'tab'; Char = '' } }
-        ([ConsoleKey]::Backspace)  { return @{ Key = 'backspace'; Char = '' } }
-        ([ConsoleKey]::PageUp)     { return @{ Key = 'pgup'; Char = '' } }
-        ([ConsoleKey]::PageDown)   { return @{ Key = 'pgdown'; Char = '' } }
-        ([ConsoleKey]::Home)       { return @{ Key = 'home'; Char = '' } }
-        ([ConsoleKey]::End)        { return @{ Key = 'end'; Char = '' } }
-    }
-    if ($k.KeyChar -ne [char]0) {
-        $ch = [string]$k.KeyChar
-        if ($ch -match '^[\x20-\x7E]$') {
-            return @{ Key = $ch.ToLower(); Char = $ch }
+    while ($true) {
+        $available = $false
+        try {
+            $available = [Console]::KeyAvailable
+        } catch {
+            Start-Sleep -Milliseconds 40
+            return @{ Key = 'none'; Char = '' }
         }
-        return @{ Key = 'char'; Char = $ch }
+
+        if ($available) {
+            try {
+                $k = [Console]::ReadKey($true)
+            } catch {
+                Start-Sleep -Milliseconds 40
+                return @{ Key = 'none'; Char = '' }
+            }
+            if (($k.Modifiers -band [ConsoleModifiers]::Control) -ne 0) {
+                if ($k.Key -eq [ConsoleKey]::C) { return @{ Key = 'ctrl-c'; Char = '' } }
+                return @{ Key = 'ctrl'; Char = '' }
+            }
+            switch ($k.Key) {
+                ([ConsoleKey]::UpArrow)    { return @{ Key = 'up'; Char = '' } }
+                ([ConsoleKey]::DownArrow)  { return @{ Key = 'down'; Char = '' } }
+                ([ConsoleKey]::LeftArrow)  { return @{ Key = 'left'; Char = '' } }
+                ([ConsoleKey]::RightArrow) { return @{ Key = 'right'; Char = '' } }
+                ([ConsoleKey]::Enter)      { return @{ Key = 'enter'; Char = '' } }
+                ([ConsoleKey]::Escape)     { return @{ Key = 'esc'; Char = '' } }
+                ([ConsoleKey]::Spacebar)   { return @{ Key = 'space'; Char = ' ' } }
+                ([ConsoleKey]::Tab)        { return @{ Key = 'tab'; Char = '' } }
+                ([ConsoleKey]::Backspace)  { return @{ Key = 'backspace'; Char = '' } }
+                ([ConsoleKey]::PageUp)     { return @{ Key = 'pgup'; Char = '' } }
+                ([ConsoleKey]::PageDown)   { return @{ Key = 'pgdown'; Char = '' } }
+                ([ConsoleKey]::Home)       { return @{ Key = 'home'; Char = '' } }
+                ([ConsoleKey]::End)        { return @{ Key = 'end'; Char = '' } }
+            }
+            if ($k.KeyChar -ne [char]0) {
+                $ch = [string]$k.KeyChar
+                if ($ch -match '^[\x20-\x7E]$') {
+                    return @{ Key = $ch.ToLower(); Char = $ch }
+                }
+                return @{ Key = 'char'; Char = $ch }
+            }
+            return @{ Key = 'none'; Char = '' }
+        }
+
+        $cw = 0
+        $chh = 0
+        try { $cw = [Console]::WindowWidth } catch { }
+        try { $chh = [Console]::WindowHeight } catch { }
+        if ($cw -gt 0 -and $chh -gt 0 -and ($cw -ne $script:TW -or $chh -ne $script:TH)) {
+            Start-Sleep -Milliseconds 50
+            return @{ Key = 'resize'; Char = '' }
+        }
+
+        Start-Sleep -Milliseconds 30
     }
-    return @{ Key = 'none'; Char = '' }
 }
 
 function Tui-InputLine {
@@ -324,6 +369,7 @@ function Tui-InputLine {
         Tui-Put $cx $Y ' ' 'base' 'accent'
         Tui-Render
         $k = Tui-ReadKey
+        if ($k.Key -eq 'resize') { Tui-Reset; continue }
         switch ($k.Key) {
             'enter'     { return $text }
             'esc'       { return $null }
