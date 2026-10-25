@@ -1,11 +1,12 @@
-{
-  "version": "1.0.0",
-  "description": "Sugestões seguras pré-marcadas",
+﻿{
+  "version": "2.0.0",
   "defaults": [
     "uwp_getstarted",
     "uwp_bing_weather",
     "uwp_bing_news",
-    "tips_suggestions",
-    "ads_experience"
+    "suggestions_start",
+    "ads_privacy",
+    "app_tracking",
+    "tips_lockscreen"
   ]
 }

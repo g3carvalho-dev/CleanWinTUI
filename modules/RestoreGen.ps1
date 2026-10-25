@@ -1,0 +1,115 @@
+﻿# CleanWinTUI - Restore-Plan generator
+
+function New-RestorePlan {
+    param(
+        [array]$Items,
+        [hashtable]$Summary
+    )
+
+    $sp = $script:App.SessionPath
+    $build = $script:App.Build
+    $rpMessage = 'não criado'
+    if ($script:App.RestorePoint) { $rpMessage = $script:App.RestorePoint.Message }
+
+    $sb = New-Object System.Text.StringBuilder
+    [void]$sb.AppendLine('# ============================================================')
+    [void]$sb.AppendLine('# CleanWinTUI - PLANO DE RESTAURACAO')
+    [void]$sb.AppendLine('# ============================================================')
+    [void]$sb.AppendLine("# Gerado em .....: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')")
+    [void]$sb.AppendLine("# Sessao ........: $($script:App.SessionId)")
+    [void]$sb.AppendLine("# Windows build .: $build")
+    [void]$sb.AppendLine("# Ponto de restauracao: $rpMessage")
+    [void]$sb.AppendLine('#')
+    [void]$sb.AppendLine('# ORDEM RECOMENDADA DE RESTAURACAO:')
+    [void]$sb.AppendLine('#   1. Ponto de restauracao do sistema (mais confiavel)')
+    [void]$sb.AppendLine('#   2. Este script (restaura registro, tarefas e orienta Appx)')
+    [void]$sb.AppendLine('# ============================================================')
+    [void]$sb.AppendLine('')
+    [void]$sb.AppendLine('# Itens aplicados nesta sessao:')
+    foreach ($item in $Items) {
+        $safeTitle = $item.title -replace "'", "''"
+        [void]$sb.AppendLine("#   [$($item.group)] $safeTitle")
+    }
+    [void]$sb.AppendLine('')
+    [void]$sb.AppendLine("`$ErrorActionPreference = 'Continue'")
+    [void]$sb.AppendLine("`$SessionPath = '$($sp -replace "'", "''")'")
+    [void]$sb.AppendLine('$BackupDir = Join-Path $SessionPath ''backup''')
+    [void]$sb.AppendLine('')
+    [void]$sb.AppendLine('function Write-Step($text) {')
+    [void]$sb.AppendLine('    Write-Host ""')
+    [void]$sb.AppendLine('    Write-Host "== $text" -ForegroundColor Cyan')
+    [void]$sb.AppendLine('}')
+    [void]$sb.AppendLine('')
+    [void]$sb.AppendLine('Write-Host "CleanWinTUI - Plano de Restauracao" -ForegroundColor Magenta')
+    [void]$sb.AppendLine('Write-Host "Sessao: $SessionPath" -ForegroundColor DarkGray')
+    [void]$sb.AppendLine('')
+    [void]$sb.AppendLine('Write-Step ''1) PONTO DE RESTAURACAO DO SISTEMA''')
+    [void]$sb.AppendLine('Write-Host "Abra rstrui.exe e escolha o ponto criado antes do debloat."')
+    [void]$sb.AppendLine('Write-Host "Este e o metodo mais confiavel e recomendado."')
+    [void]$sb.AppendLine('Write-Host "Deseja abrir a Restauracao do Sistema agora? (S/N)" -ForegroundColor Yellow')
+    [void]$sb.AppendLine('if ((Read-Host) -match ''^(s|y)'') { Start-Process rstrui.exe }')
+    [void]$sb.AppendLine('')
+    [void]$sb.AppendLine('Write-Step ''2) RESTAURAR CHAVES DE REGISTRO''')
+    [void]$sb.AppendLine('$regIndex = Join-Path $BackupDir ''registry\index.json''')
+    [void]$sb.AppendLine('if (Test-Path $regIndex) {')
+    [void]$sb.AppendLine('    $entries = Get-Content -Raw -Encoding UTF8 $regIndex | ConvertFrom-Json')
+    [void]$sb.AppendLine('    foreach ($e in @($entries)) {')
+    [void]$sb.AppendLine('        if (-not $e.Existed) { continue }')
+    [void]$sb.AppendLine('        $file = Join-Path (Join-Path $BackupDir ''registry'') $e.File')
+    [void]$sb.AppendLine('        if (Test-Path $file) {')
+    [void]$sb.AppendLine('            Write-Host "Importando $($e.Key)" -ForegroundColor Gray')
+    [void]$sb.AppendLine('            & reg.exe import $file | Out-Null')
+    [void]$sb.AppendLine('        }')
+    [void]$sb.AppendLine('    }')
+    [void]$sb.AppendLine('    Write-Host "Registro restaurado." -ForegroundColor Green')
+    [void]$sb.AppendLine('} else {')
+    [void]$sb.AppendLine('    Write-Host "Nenhum backup de registro encontrado." -ForegroundColor DarkYellow')
+    [void]$sb.AppendLine('}')
+    [void]$sb.AppendLine('')
+    [void]$sb.AppendLine('Write-Step ''3) REATIVAR TAREFAS AGENDADAS''')
+    [void]$sb.AppendLine('$taskIndex = Join-Path $BackupDir ''tasks\index.json''')
+    [void]$sb.AppendLine('if (Test-Path $taskIndex) {')
+    [void]$sb.AppendLine('    $entries = Get-Content -Raw -Encoding UTF8 $taskIndex | ConvertFrom-Json')
+    [void]$sb.AppendLine('    foreach ($e in @($entries)) {')
+    [void]$sb.AppendLine('        if (-not $e.Existed) { continue }')
+    [void]$sb.AppendLine('        $file = Join-Path (Join-Path $BackupDir ''tasks'') $e.File')
+    [void]$sb.AppendLine('        Write-Host "Reativando $($e.TaskPath)" -ForegroundColor Gray')
+    [void]$sb.AppendLine('        & schtasks.exe /change /tn $e.TaskPath /enable 2>$null | Out-Null')
+    [void]$sb.AppendLine('        if ($LASTEXITCODE -ne 0 -and (Test-Path $file)) {')
+    [void]$sb.AppendLine('            & schtasks.exe /create /tn $e.TaskPath /xml $file /f 2>$null | Out-Null')
+    [void]$sb.AppendLine('        }')
+    [void]$sb.AppendLine('    }')
+    [void]$sb.AppendLine('    Write-Host "Tarefas processadas." -ForegroundColor Green')
+    [void]$sb.AppendLine('} else {')
+    [void]$sb.AppendLine('    Write-Host "Nenhum backup de tarefas encontrado." -ForegroundColor DarkYellow')
+    [void]$sb.AppendLine('}')
+    [void]$sb.AppendLine('')
+    [void]$sb.AppendLine('Write-Step ''4) REINSTALAR APLICATIVOS (APPX)''')
+    [void]$sb.AppendLine('$q = Join-Path $SessionPath ''quarantine\appx.json''')
+    [void]$sb.AppendLine('if (Test-Path $q) {')
+    [void]$sb.AppendLine('    $entries = Get-Content -Raw -Encoding UTF8 $q | ConvertFrom-Json')
+    [void]$sb.AppendLine('    foreach ($e in @($entries)) {')
+    [void]$sb.AppendLine('        $installed = Get-AppxPackage -Name $e.Name -ErrorAction SilentlyContinue')
+    [void]$sb.AppendLine('        if ($installed) { continue }')
+    [void]$sb.AppendLine('        Write-Host "Reinstale pela Microsoft Store: $($e.Name)" -ForegroundColor Yellow')
+    [void]$sb.AppendLine('        Write-Host "  $($e.StoreUri)" -ForegroundColor DarkGray')
+    [void]$sb.AppendLine('    }')
+    [void]$sb.AppendLine('    Write-Host "Abra a Microsoft Store para reinstalar os pacotes listados." -ForegroundColor Green')
+    [void]$sb.AppendLine('} else {')
+    [void]$sb.AppendLine('    Write-Host "Nenhum pacote removido nesta sessao." -ForegroundColor DarkYellow')
+    [void]$sb.AppendLine('}')
+    [void]$sb.AppendLine('')
+    [void]$sb.AppendLine('Write-Step ''5) VERIFICACAO FINAL''')
+    [void]$sb.AppendLine('Write-Host "1. Reinicie o Explorer ou o computador."')
+    [void]$sb.AppendLine('Write-Host "2. Confira Configuracoes > Sistema e Personalizacao."')
+    [void]$sb.AppendLine('Write-Host "3. Se algo continuar alterado, use o ponto de restauracao."')
+    [void]$sb.AppendLine('Write-Host ""')
+    [void]$sb.AppendLine('Write-Host "Logs completos: $SessionPath" -ForegroundColor DarkGray')
+    [void]$sb.AppendLine('Write-Host "Concluido." -ForegroundColor Magenta')
+
+    $planPath = Join-Path $sp 'Restore-Plan.ps1'
+    [System.IO.File]::WriteAllText($planPath, $sb.ToString(), (New-Object System.Text.UTF8Encoding($true)))
+    Write-Log "Restore-Plan.ps1 gerado em $planPath"
+
+    return $planPath
+}

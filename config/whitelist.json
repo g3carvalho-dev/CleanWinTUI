@@ -1,29 +1,42 @@
-{
-  "version": "1.0.0",
-  "description": "Whitelist de componentes NUNCA tocados pelo CleanWinTUI",
+﻿{
+  "version": "2.0.0",
+  "description": "Componentes que o CleanWinTUI nunca modifica nem remove",
   "appx": [
     "Microsoft.WindowsStore",
     "Microsoft.StorePurchaseApp",
+    "Microsoft.DesktopAppInstaller",
+    "Microsoft.Windows.ShellExperienceHost",
+    "Microsoft.Windows.StartMenuExperienceHost",
+    "Microsoft.Windows.Search",
     "Microsoft.Windows.SecHealthUI",
     "Microsoft.Windows.SecurityHealthHost",
-    "Microsoft.WindowsCalculator",
-    "Microsoft.WindowsNotepad",
-    "Microsoft.ScreenSketch",
-    "Microsoft.Paint",
-    "Microsoft.Photos"
+    "Microsoft.AAD.BrokerPlugin",
+    "Microsoft.AccountsControl",
+    "Microsoft.Windows.CloudExperienceHost",
+    "Microsoft.UI.Xaml.*",
+    "Microsoft.VCLibs.*",
+    "Microsoft.NET.*",
+    "Microsoft.WindowsAppRuntime.*"
   ],
   "registryKeys": [
     "HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\WindowsUpdate",
     "HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate",
     "HKLM:\\SYSTEM\\CurrentControlSet\\Services\\wuauserv",
-    "HKLM:\\SYSTEM\\CurrentControlSet\\Services\\WinDefend"
+    "HKLM:\\SYSTEM\\CurrentControlSet\\Services\\WinDefend",
+    "HKLM:\\SOFTWARE\\Microsoft\\Windows Defender",
+    "HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon",
+    "HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SystemRestore"
+  ],
+  "tasks": [
+    "\\Microsoft\\Windows\\UpdateOrchestrator",
+    "\\Microsoft\\Windows\\WindowsUpdate",
+    "\\Microsoft\\Windows\\Defrag",
+    "\\Microsoft\\Windows\\SystemRestore"
   ],
   "services": [
     "wuauserv",
     "WinDefend",
     "MpsSvc",
     "CryptSvc"
-  ],
-  "features": [],
-  "tasks": []
+  ]
 }

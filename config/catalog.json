@@ -1,258 +1,723 @@
-{
-  "version": "1.0.0",
+﻿{
+  "version": "2.0.0",
   "items": [
     {
       "id": "uwp_getstarted",
       "group": "SEGURO",
+      "module": "apps",
       "winverMin": 22000,
       "title": "Get Started",
-      "description": "App UWP 'Get Started' redundante",
-      "impact": "Muito baixo",
-      "reversible": true,
+      "description": "Aplicativo 'Get Started' de primeiros passos, redundante em sistemas já configurados.",
+      "impact": "Nenhum impacto funcional conhecido.",
+      "reversible": "yes",
       "revertMethod": "store",
       "requiresAdmin": true,
       "dangerous": false,
       "transactionCritical": false,
       "tags": ["apps", "uwp"],
       "backupKeys": [],
-      "notes": ["Reinstalável pela Microsoft Store"],
+      "notes": ["Reinstalável pela Microsoft Store."],
       "actions": [
-        {"type": "appx_remove", "name": "Microsoft.Getstarted", "allUsers": false}
+        { "type": "appx_remove", "name": "Microsoft.Getstarted", "allUsers": false }
       ]
     },
     {
       "id": "uwp_bing_weather",
       "group": "SEGURO",
+      "module": "apps",
       "winverMin": 22000,
       "title": "Bing Weather",
-      "description": "App UWP Bing Weather",
-      "impact": "Muito baixo",
-      "reversible": true,
+      "description": "Aplicativo de previsão do tempo baseado em Bing.",
+      "impact": "Nenhum impacto funcional conhecido.",
+      "reversible": "yes",
       "revertMethod": "store",
       "requiresAdmin": true,
       "dangerous": false,
       "transactionCritical": false,
       "tags": ["apps", "uwp"],
       "backupKeys": [],
-      "notes": ["Reinstalável pela Microsoft Store"],
+      "notes": ["Reinstalável pela Microsoft Store."],
       "actions": [
-        {"type": "appx_remove", "name": "Microsoft.BingWeather", "allUsers": false}
+        { "type": "appx_remove", "name": "Microsoft.BingWeather", "allUsers": false }
       ]
     },
     {
       "id": "uwp_bing_news",
       "group": "SEGURO",
+      "module": "apps",
       "winverMin": 22000,
       "title": "Bing News",
-      "description": "App UWP Bing News",
-      "impact": "Muito baixo",
-      "reversible": true,
+      "description": "Aplicativo de notícias baseado em Bing.",
+      "impact": "Nenhum impacto funcional conhecido.",
+      "reversible": "yes",
       "revertMethod": "store",
       "requiresAdmin": true,
       "dangerous": false,
       "transactionCritical": false,
       "tags": ["apps", "uwp"],
       "backupKeys": [],
-      "notes": ["Reinstalável pela Microsoft Store"],
+      "notes": ["Reinstalável pela Microsoft Store."],
       "actions": [
-        {"type": "appx_remove", "name": "Microsoft.BingNews", "allUsers": false}
+        { "type": "appx_remove", "name": "Microsoft.BingNews", "allUsers": false }
       ]
     },
     {
-      "id": "tips_suggestions",
+      "id": "uwp_maps",
       "group": "SEGURO",
+      "module": "apps",
       "winverMin": 22000,
-      "title": "Dicas, truques e sugestões",
-      "description": "Desativa dicas e sugestões do Windows",
-      "impact": "Muito baixo",
-      "reversible": true,
+      "title": "Windows Maps",
+      "description": "Aplicativo de mapas offline do Windows.",
+      "impact": "Perde-se o app de mapas local; mapas web continuam funcionando no navegador.",
+      "reversible": "yes",
+      "revertMethod": "store",
+      "requiresAdmin": true,
+      "dangerous": false,
+      "transactionCritical": false,
+      "tags": ["apps", "uwp"],
+      "backupKeys": [],
+      "notes": ["Reinstalável pela Microsoft Store."],
+      "actions": [
+        { "type": "appx_remove", "name": "Microsoft.WindowsMaps", "allUsers": false }
+      ]
+    },
+    {
+      "id": "uwp_solitaire",
+      "group": "SEGURO",
+      "module": "apps",
+      "winverMin": 22000,
+      "title": "Solitaire Collection",
+      "description": "Coletânea de paciências com anúncios.",
+      "impact": "Nenhum impacto funcional conhecido.",
+      "reversible": "yes",
+      "revertMethod": "store",
+      "requiresAdmin": true,
+      "dangerous": false,
+      "transactionCritical": false,
+      "tags": ["apps", "uwp", "game"],
+      "backupKeys": [],
+      "notes": ["Reinstalável pela Microsoft Store."],
+      "actions": [
+        { "type": "appx_remove", "name": "Microsoft.MicrosoftSolitaireCollection", "allUsers": false }
+      ]
+    },
+    {
+      "id": "uwp_feedback",
+      "group": "SEGURO",
+      "module": "apps",
+      "winverMin": 22000,
+      "title": "Feedback Hub",
+      "description": "Central de comentários da Microsoft.",
+      "impact": "Você deixa de enviar feedback pelo app; o envio pelo site continua possível.",
+      "reversible": "yes",
+      "revertMethod": "store",
+      "requiresAdmin": true,
+      "dangerous": false,
+      "transactionCritical": false,
+      "tags": ["apps", "uwp", "telemetry"],
+      "backupKeys": [],
+      "notes": ["Reinstalável pela Microsoft Store."],
+      "actions": [
+        { "type": "appx_remove", "name": "Microsoft.WindowsFeedbackHub", "allUsers": false }
+      ]
+    },
+    {
+      "id": "uwp_mixedreality",
+      "group": "SEGURO",
+      "module": "apps",
+      "winverMin": 22000,
+      "title": "Mixed Reality Portal",
+      "description": "Portal de realidade mista, inútil sem headset compatível.",
+      "impact": "Nenhum impacto em sistemas sem hardware de realidade mista.",
+      "reversible": "yes",
+      "revertMethod": "store",
+      "requiresAdmin": true,
+      "dangerous": false,
+      "transactionCritical": false,
+      "tags": ["apps", "uwp"],
+      "backupKeys": [],
+      "notes": ["Reinstalável pela Microsoft Store."],
+      "actions": [
+        { "type": "appx_remove", "name": "Microsoft.MixedReality.Portal", "allUsers": false }
+      ]
+    },
+    {
+      "id": "uwp_officehub",
+      "group": "SEGURO",
+      "module": "apps",
+      "winverMin": 22000,
+      "title": "Microsoft 365 Hub",
+      "description": "Hub promocional do Microsoft 365.",
+      "impact": "Nenhum impacto nos aplicativos do Office já instalados.",
+      "reversible": "yes",
+      "revertMethod": "store",
+      "requiresAdmin": true,
+      "dangerous": false,
+      "transactionCritical": false,
+      "tags": ["apps", "uwp"],
+      "backupKeys": [],
+      "notes": ["Reinstalável pela Microsoft Store."],
+      "actions": [
+        { "type": "appx_remove", "name": "Microsoft.MicrosoftOfficeHub", "allUsers": false }
+      ]
+    },
+    {
+      "id": "suggestions_start",
+      "group": "SEGURO",
+      "module": "telemetry",
+      "winverMin": 22000,
+      "title": "Sugestões e apps promovidos",
+      "description": "Desativa sugestões no menu Iniciar, instalação automática de apps promovidos e dicas do sistema.",
+      "impact": "O Windows deixa de sugerir aplicativos e conteúdos patrocinados.",
+      "reversible": "yes",
       "revertMethod": "registry",
       "requiresAdmin": true,
       "dangerous": false,
       "transactionCritical": false,
-      "tags": ["telemetry", "tips"],
-      "backupKeys": [
-        "HKCU:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager"
-      ],
-      "notes": ["Reversível via registro"],
+      "tags": ["telemetry", "ads", "start"],
+      "backupKeys": ["HKCU:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager"],
+      "notes": ["Reversível pelo Restore-Plan ou reativando as opções em Configurações."],
       "actions": [
-        {"type": "reg_set", "hive": "HKCU", "path": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager", "name": "SubscribedContent-338388Enabled", "value": 0, "type": "DWord"},
-        {"type": "reg_set", "hive": "HKCU", "path": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager", "name": "SubscribedContent-310093Enabled", "value": 0, "type": "DWord"},
-        {"type": "reg_set", "hive": "HKCU", "path": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager", "name": "SoftLandingEnabled", "value": 0, "type": "DWord"}
+        { "type": "reg_set", "hive": "HKCU", "path": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager", "name": "SilentInstalledAppsEnabled", "value": 0, "valueType": "DWord" },
+        { "type": "reg_set", "hive": "HKCU", "path": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager", "name": "PreInstalledAppsEnabled", "value": 0, "valueType": "DWord" },
+        { "type": "reg_set", "hive": "HKCU", "path": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager", "name": "OemPreInstalledAppsEnabled", "value": 0, "valueType": "DWord" },
+        { "type": "reg_set", "hive": "HKCU", "path": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager", "name": "SoftLandingEnabled", "value": 0, "valueType": "DWord" },
+        { "type": "reg_set", "hive": "HKCU", "path": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager", "name": "SystemPaneSuggestionsEnabled", "value": 0, "valueType": "DWord" },
+        { "type": "reg_set", "hive": "HKCU", "path": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager", "name": "SubscribedContent-338388Enabled", "value": 0, "valueType": "DWord" },
+        { "type": "reg_set", "hive": "HKCU", "path": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager", "name": "SubscribedContent-338389Enabled", "value": 0, "valueType": "DWord" },
+        { "type": "reg_set", "hive": "HKCU", "path": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager", "name": "Start_IrisRecommendations", "value": 0, "valueType": "DWord" }
       ]
     },
     {
-      "id": "ads_experience",
+      "id": "ads_privacy",
       "group": "SEGURO",
+      "module": "telemetry",
       "winverMin": 22000,
-      "title": "Experiência com anúncios",
-      "description": "Desativa anúncios e conteúdo sugerido",
-      "impact": "Muito baixo",
-      "reversible": true,
+      "title": "Anúncios e ID de publicidade",
+      "description": "Desativa o ID de publicidade e notificações promocionais do sistema.",
+      "impact": "Reduz personalização de anúncios; nenhum impacto funcional.",
+      "reversible": "yes",
       "revertMethod": "registry",
       "requiresAdmin": true,
       "dangerous": false,
       "transactionCritical": false,
-      "tags": ["ads", "telemetry"],
+      "tags": ["telemetry", "ads"],
       "backupKeys": [
         "HKCU:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\AdvertisingInfo",
-        "HKCU:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager"
+        "HKCU:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced"
       ],
-      "notes": ["Reversível via registro"],
+      "notes": ["Reversível pelo Restore-Plan."],
       "actions": [
-        {"type": "reg_set", "hive": "HKCU", "path": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\AdvertisingInfo", "name": "Enabled", "value": 0, "type": "DWord"},
-        {"type": "reg_set", "hive": "HKCU", "path": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager", "name": "SubscribedContent-353694Enabled", "value": 0, "type": "DWord"}
+        { "type": "reg_set", "hive": "HKCU", "path": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\AdvertisingInfo", "name": "Enabled", "value": 0, "valueType": "DWord" },
+        { "type": "reg_set", "hive": "HKCU", "path": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced", "name": "ShowSyncProviderNotifications", "value": 0, "valueType": "DWord" },
+        { "type": "reg_set", "hive": "HKCU", "path": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager", "name": "SubscribedContent-353694Enabled", "value": 0, "valueType": "DWord" }
       ]
     },
     {
-      "id": "explorer_classic_context_menu",
-      "group": "OPCIONAL",
+      "id": "app_tracking",
+      "group": "SEGURO",
+      "module": "telemetry",
       "winverMin": 22000,
-      "title": "Menu de contexto clássico",
-      "description": "Restaura menu de contexto estilo Windows 10",
-      "impact": "Baixo",
-      "reversible": true,
+      "title": "Rastreamento de apps iniciados",
+      "description": "Impede o registro de quais aplicativos você abre para 'aperfeiçoar' o menu Iniciar.",
+      "impact": "O menu Iniciar pode ficar menos personalizado.",
+      "reversible": "yes",
       "revertMethod": "registry",
       "requiresAdmin": true,
       "dangerous": false,
       "transactionCritical": false,
-      "tags": ["explorer", "ui"],
-      "backupKeys": [
-        "HKCU:\\Software\\Classes\\CLSID\\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\\InprocServer32"
-      ],
-      "notes": ["Requer logoff/explorer restart"],
+      "tags": ["telemetry", "privacy"],
+      "backupKeys": ["HKCU:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced"],
+      "notes": ["Reversível pelo Restore-Plan."],
       "actions": [
-        {"type": "reg_create_key", "hive": "HKCU", "path": "Software\\Classes\\CLSID\\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\\InprocServer32"},
-        {"type": "reg_set", "hive": "HKCU", "path": "Software\\Classes\\CLSID\\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\\InprocServer32", "name": "(Default)", "value": "", "type": "String"}
+        { "type": "reg_set", "hive": "HKCU", "path": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced", "name": "Start_TrackProgs", "value": 0, "valueType": "DWord" }
+      ]
+    },
+    {
+      "id": "tips_lockscreen",
+      "group": "SEGURO",
+      "module": "telemetry",
+      "winverMin": 22000,
+      "title": "Dicas na tela de bloqueio",
+      "description": "Remove dicas, truques e sobreposições promocionais da tela de bloqueio.",
+      "impact": "A tela de bloqueio deixa de exibir sugestões.",
+      "reversible": "yes",
+      "revertMethod": "registry",
+      "requiresAdmin": true,
+      "dangerous": false,
+      "transactionCritical": false,
+      "tags": ["telemetry", "lockscreen"],
+      "backupKeys": ["HKCU:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager"],
+      "notes": ["Reversível pelo Restore-Plan."],
+      "actions": [
+        { "type": "reg_set", "hive": "HKCU", "path": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager", "name": "RotatingLockScreenOverlayEnabled", "value": 0, "valueType": "DWord" },
+        { "type": "reg_set", "hive": "HKCU", "path": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager", "name": "SubscribedContent-338387Enabled", "value": 0, "valueType": "DWord" }
       ]
     },
     {
       "id": "widgets_hide",
       "group": "OPCIONAL",
+      "module": "explorer",
       "winverMin": 22000,
       "title": "Ocultar Widgets",
-      "description": "Desativa e oculta Widgets da barra de tarefas",
-      "impact": "Baixo",
-      "reversible": true,
+      "description": "Remove o botão de Widgets da barra de tarefas.",
+      "impact": "Widgets deixam de aparecer na barra; o recurso permanece instalado.",
+      "reversible": "yes",
       "revertMethod": "registry",
       "requiresAdmin": true,
       "dangerous": false,
       "transactionCritical": false,
-      "tags": ["explorer", "taskbar"],
-      "backupKeys": [
-        "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced"
-      ],
-      "notes": ["Reversível"],
+      "tags": ["explorer", "taskbar", "ui"],
+      "backupKeys": ["HKCU:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced"],
+      "notes": ["Reversível em Configurações > Personalização > Barra de tarefas."],
       "actions": [
-        {"type": "reg_set", "hive": "HKCU", "path": "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced", "name": "TaskbarDa", "value": 0, "type": "DWord"}
+        { "type": "reg_set", "hive": "HKCU", "path": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced", "name": "TaskbarDa", "value": 0, "valueType": "DWord" }
       ]
     },
     {
-      "id": "bing_search_disable",
+      "id": "chat_hide",
       "group": "OPCIONAL",
+      "module": "explorer",
       "winverMin": 22000,
-      "title": "Desativar Bing na busca",
-      "description": "Remove sugestões web Bing da pesquisa do Windows",
-      "impact": "Baixo",
-      "reversible": true,
+      "title": "Ocultar Chat (Teams pessoal)",
+      "description": "Remove o ícone de Chat da barra de tarefas.",
+      "impact": "O atalho para o Teams pessoal deixa de aparecer.",
+      "reversible": "yes",
       "revertMethod": "registry",
       "requiresAdmin": true,
       "dangerous": false,
       "transactionCritical": false,
-      "tags": ["search", "bing"],
-      "backupKeys": [
-        "HKCU:\\SOFTWARE\\Policies\\Microsoft\\Windows\\Explorer",
-        "HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\Windows Search"
-      ],
-      "notes": ["Reversível"],
+      "tags": ["explorer", "taskbar", "ui"],
+      "backupKeys": ["HKCU:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced"],
+      "notes": ["Reversível em Configurações > Personalização > Barra de tarefas."],
       "actions": [
-        {"type": "reg_create_key", "hive": "HKCU", "path": "SOFTWARE\\Policies\\Microsoft\\Windows\\Explorer"},
-        {"type": "reg_set", "hive": "HKCU", "path": "SOFTWARE\\Policies\\Microsoft\\Windows\\Explorer", "name": "DisableSearchBoxSuggestions", "value": 1, "type": "DWord"}
+        { "type": "reg_set", "hive": "HKCU", "path": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced", "name": "TaskbarMn", "value": 0, "valueType": "DWord" }
+      ]
+    },
+    {
+      "id": "search_icon_only",
+      "group": "OPCIONAL",
+      "module": "explorer",
+      "winverMin": 22000,
+      "title": "Pesquisa compacta na barra",
+      "description": "Transforma a caixa de pesquisa da barra de tarefas em apenas um ícone.",
+      "impact": "Muda apenas a aparência da barra de tarefas.",
+      "reversible": "yes",
+      "revertMethod": "registry",
+      "requiresAdmin": true,
+      "dangerous": false,
+      "transactionCritical": false,
+      "tags": ["explorer", "taskbar", "ui"],
+      "backupKeys": ["HKCU:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced"],
+      "notes": ["Reversível em Configurações > Personalização > Barra de tarefas."],
+      "actions": [
+        { "type": "reg_set", "hive": "HKCU", "path": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced", "name": "SearchboxTaskbarMode", "value": 1, "valueType": "DWord" }
+      ]
+    },
+    {
+      "id": "show_extensions",
+      "group": "OPCIONAL",
+      "module": "explorer",
+      "winverMin": 22000,
+      "title": "Mostrar extensões de arquivo",
+      "description": "Exibe as extensões de todos os arquivos no Explorador.",
+      "impact": "Apenas exibição; aumenta a segurança ao identificar tipos de arquivo.",
+      "reversible": "yes",
+      "revertMethod": "registry",
+      "requiresAdmin": true,
+      "dangerous": false,
+      "transactionCritical": false,
+      "tags": ["explorer", "ui"],
+      "backupKeys": ["HKCU:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced"],
+      "notes": ["Reversível em Opções de pasta."],
+      "actions": [
+        { "type": "reg_set", "hive": "HKCU", "path": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced", "name": "HideFileExt", "value": 0, "valueType": "DWord" }
+      ]
+    },
+    {
+      "id": "classic_context",
+      "group": "OPCIONAL",
+      "module": "explorer",
+      "winverMin": 22000,
+      "title": "Menu de contexto clássico",
+      "description": "Restaura o menu de contexto completo, sem o 'Mostrar mais opções'.",
+      "impact": "Muda a aparência do menu de botão direito. Requer reiniciar o Explorador.",
+      "reversible": "yes",
+      "revertMethod": "registry",
+      "requiresAdmin": true,
+      "dangerous": false,
+      "transactionCritical": false,
+      "tags": ["explorer", "ui"],
+      "backupKeys": [],
+      "notes": ["Requer reinício do explorer.exe para aplicar.", "Reversível pelo Restore-Plan."],
+      "actions": [
+        { "type": "reg_create_key", "hive": "HKCU", "path": "Software\\Classes\\CLSID\\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\\InprocServer32" },
+        { "type": "reg_set", "hive": "HKCU", "path": "Software\\Classes\\CLSID\\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\\InprocServer32", "name": "(Default)", "value": "", "valueType": "String" }
+      ]
+    },
+    {
+      "id": "bing_search_off",
+      "group": "OPCIONAL",
+      "module": "explorer",
+      "winverMin": 22000,
+      "title": "Desativar Bing na pesquisa",
+      "description": "Remove sugestões e resultados web do Bing na pesquisa do Windows.",
+      "impact": "A pesquisa passa a ser somente local.",
+      "reversible": "yes",
+      "revertMethod": "registry",
+      "requiresAdmin": true,
+      "dangerous": false,
+      "transactionCritical": false,
+      "tags": ["explorer", "search", "privacy"],
+      "backupKeys": ["HKCU:\\SOFTWARE\\Policies\\Microsoft\\Windows\\Explorer"],
+      "notes": ["Reversível pelo Restore-Plan."],
+      "actions": [
+        { "type": "reg_create_key", "hive": "HKCU", "path": "SOFTWARE\\Policies\\Microsoft\\Windows\\Explorer" },
+        { "type": "reg_set", "hive": "HKCU", "path": "SOFTWARE\\Policies\\Microsoft\\Windows\\Explorer", "name": "DisableSearchBoxSuggestions", "value": 1, "valueType": "DWord" }
+      ]
+    },
+    {
+      "id": "copilot_button_off",
+      "group": "OPCIONAL",
+      "module": "edgeai",
+      "winverMin": 22621,
+      "title": "Ocultar botão do Copilot",
+      "description": "Remove o botão do Copilot da barra de tarefas.",
+      "impact": "Apenas oculta o atalho; o recurso pode continuar instalado.",
+      "reversible": "yes",
+      "revertMethod": "registry",
+      "requiresAdmin": true,
+      "dangerous": false,
+      "transactionCritical": false,
+      "tags": ["ai", "taskbar", "ui"],
+      "backupKeys": ["HKCU:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced"],
+      "notes": ["Reversível em Configurações > Personalização > Barra de tarefas."],
+      "actions": [
+        { "type": "reg_set", "hive": "HKCU", "path": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced", "name": "ShowCopilotButton", "value": 0, "valueType": "DWord" }
+      ]
+    },
+    {
+      "id": "game_dvr_off",
+      "group": "OPCIONAL",
+      "module": "system",
+      "winverMin": 22000,
+      "title": "Desativar gravação do Xbox Game Bar",
+      "description": "Desativa a captura de tela em segundo plano e notificações de jogo.",
+      "impact": "Atalhos de gravação deixam de funcionar até serem reativados.",
+      "reversible": "yes",
+      "revertMethod": "registry",
+      "requiresAdmin": true,
+      "dangerous": false,
+      "transactionCritical": false,
+      "tags": ["gaming", "system"],
+      "backupKeys": [
+        "HKCU:\\System\\GameConfigStore",
+        "HKCU:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\GameDVR"
+      ],
+      "notes": ["Reversível em Configurações > Jogos > Capturas."],
+      "actions": [
+        { "type": "reg_set", "hive": "HKCU", "path": "System\\GameConfigStore", "name": "GameDVR_Enabled", "value": 0, "valueType": "DWord" },
+        { "type": "reg_set", "hive": "HKCU", "path": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\GameDVR", "name": "AppCaptureEnabled", "value": 0, "valueType": "DWord" }
+      ]
+    },
+    {
+      "id": "uwp_xbox_gamebar",
+      "group": "OPCIONAL",
+      "module": "apps",
+      "winverMin": 22000,
+      "title": "Xbox Game Bar",
+      "description": "Remove o aplicativo da Game Bar.",
+      "impact": "Overlay de jogos e captura deixam de abrir (Win+G).",
+      "reversible": "yes",
+      "revertMethod": "store",
+      "requiresAdmin": true,
+      "dangerous": false,
+      "transactionCritical": false,
+      "tags": ["apps", "gaming"],
+      "backupKeys": [],
+      "notes": ["Reinstalável pela Microsoft Store."],
+      "actions": [
+        { "type": "appx_remove", "name": "Microsoft.XboxGamingOverlay", "allUsers": false }
+      ]
+    },
+    {
+      "id": "uwp_phone_link",
+      "group": "OPCIONAL",
+      "module": "apps",
+      "winverMin": 22000,
+      "title": "Phone Link",
+      "description": "Remove o app de vínculo com celular.",
+      "impact": "Espelhamento de celular deixa de funcionar.",
+      "reversible": "yes",
+      "revertMethod": "store",
+      "requiresAdmin": true,
+      "dangerous": false,
+      "transactionCritical": false,
+      "tags": ["apps", "uwp"],
+      "backupKeys": [],
+      "notes": ["Reinstalável pela Microsoft Store."],
+      "actions": [
+        { "type": "appx_remove", "name": "Microsoft.YourPhone", "allUsers": false }
+      ]
+    },
+    {
+      "id": "uwp_clipchamp",
+      "group": "OPCIONAL",
+      "module": "apps",
+      "winverMin": 22000,
+      "title": "Clipchamp",
+      "description": "Editor de vídeo pré-instalado com integração online.",
+      "impact": "Perde-se o editor padrão; alternativas podem ser instaladas.",
+      "reversible": "yes",
+      "revertMethod": "store",
+      "requiresAdmin": true,
+      "dangerous": false,
+      "transactionCritical": false,
+      "tags": ["apps", "uwp"],
+      "backupKeys": [],
+      "notes": ["Reinstalável pela Microsoft Store."],
+      "actions": [
+        { "type": "appx_remove", "name": "Clipchamp.Clipchamp", "allUsers": false }
+      ]
+    },
+    {
+      "id": "uwp_teams_consumer",
+      "group": "OPCIONAL",
+      "module": "apps",
+      "winverMin": 22000,
+      "title": "Teams (consumidor)",
+      "description": "Remove o cliente pessoal do Teams pré-instalado.",
+      "impact": "O Teams pessoal deixa de abrir; o Teams corporativo não é afetado.",
+      "reversible": "yes",
+      "revertMethod": "store",
+      "requiresAdmin": true,
+      "dangerous": false,
+      "transactionCritical": false,
+      "tags": ["apps", "uwp"],
+      "backupKeys": [],
+      "notes": ["Reinstalável pela Microsoft Store."],
+      "actions": [
+        { "type": "appx_remove", "name": "MSTeams", "allUsers": false }
+      ]
+    },
+    {
+      "id": "uwp_outlook",
+      "group": "OPCIONAL",
+      "module": "apps",
+      "winverMin": 22000,
+      "title": "Outlook (novo)",
+      "description": "Remove o aplicativo novo do Outlook para Windows.",
+      "impact": "O app de e-mail novo deixa de abrir; clientes clássicos não são afetados.",
+      "reversible": "yes",
+      "revertMethod": "store",
+      "requiresAdmin": true,
+      "dangerous": false,
+      "transactionCritical": false,
+      "tags": ["apps", "uwp"],
+      "backupKeys": [],
+      "notes": ["Reinstalável pela Microsoft Store."],
+      "actions": [
+        { "type": "appx_remove", "name": "Microsoft.OutlookForWindows", "allUsers": false }
       ]
     },
     {
       "id": "fast_startup_disable",
       "group": "CUIDADO",
+      "module": "system",
       "winverMin": 22000,
       "title": "Desativar Inicialização Rápida",
-      "description": "Desativa Fast Startup (pode afetar dual-boot)",
-      "impact": "Médio - Afeta dual-boot e alguns cenários",
-      "reversible": true,
+      "description": "Desativa o Fast Startup, garantindo desligamento completo.",
+      "impact": "Boot pode ficar alguns segundos mais lento. Em dual-boot evita partições travadas.",
+      "reversible": "yes",
       "revertMethod": "registry",
       "requiresAdmin": true,
       "dangerous": true,
       "transactionCritical": true,
-      "tags": ["system", "boot"],
-      "backupKeys": [
-        "HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Power"
+      "tags": ["system", "boot", "power"],
+      "backupKeys": ["HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Power"],
+      "notes": [
+        "Recomendado em dual-boot e com criptografia de disco.",
+        "Requer reinicialização para efeito completo."
       ],
-      "notes": ["Em dual-boot pode impedir acesso a outras partições", "Requer reinicialização"],
       "actions": [
-        {"type": "reg_set", "hive": "HKLM", "path": "SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Power", "name": "HiberbootEnabled", "value": 0, "type": "DWord"}
+        { "type": "reg_set", "hive": "HKLM", "path": "SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Power", "name": "HiberbootEnabled", "value": 0, "valueType": "DWord" }
       ]
     },
     {
-      "id": "delivery_optimization_disable",
+      "id": "delivery_optimization",
       "group": "CUIDADO",
+      "module": "system",
       "winverMin": 22000,
       "title": "Desativar Delivery Optimization",
-      "description": "Impede compartilhamento de atualizações com outros PCs",
-      "impact": "Médio",
-      "reversible": true,
+      "description": "Impede o compartilhamento de atualizações com outros PCs na rede ou internet.",
+      "impact": "Downloads de atualização podem ficar mais lentos em redes com vários PCs.",
+      "reversible": "yes",
       "revertMethod": "registry",
       "requiresAdmin": true,
       "dangerous": true,
       "transactionCritical": true,
-      "tags": ["updates"],
-      "backupKeys": [
-        "HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeliveryOptimization"
-      ],
-      "notes": ["Reversível"],
+      "tags": ["updates", "network"],
+      "backupKeys": ["HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeliveryOptimization"],
+      "notes": ["Reversível pelo Restore-Plan."],
       "actions": [
-        {"type": "reg_create_key", "hive": "HKLM", "path": "SOFTWARE\\Policies\\Microsoft\\Windows\\DeliveryOptimization"},
-        {"type": "reg_set", "hive": "HKLM", "path": "SOFTWARE\\Policies\\Microsoft\\Windows\\DeliveryOptimization", "name": "DODownloadMode", "value": 0, "type": "DWord"}
+        { "type": "reg_create_key", "hive": "HKLM", "path": "SOFTWARE\\Policies\\Microsoft\\Windows\\DeliveryOptimization" },
+        { "type": "reg_set", "hive": "HKLM", "path": "SOFTWARE\\Policies\\Microsoft\\Windows\\DeliveryOptimization", "name": "DODownloadMode", "value": 0, "valueType": "DWord" }
+      ]
+    },
+    {
+      "id": "storage_sense_disable",
+      "group": "CUIDADO",
+      "module": "system",
+      "winverMin": 22000,
+      "title": "Desativar Sensor de Armazenamento",
+      "description": "Impede a limpeza automática de arquivos temporários e da lixeira.",
+      "impact": "O disco pode acumular arquivos temporários; limpeza manual passa a ser necessária.",
+      "reversible": "yes",
+      "revertMethod": "registry",
+      "requiresAdmin": true,
+      "dangerous": true,
+      "transactionCritical": true,
+      "tags": ["system", "storage"],
+      "backupKeys": ["HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\StorageSense"],
+      "notes": ["Reversível em Configurações > Sistema > Armazenamento."],
+      "actions": [
+        { "type": "reg_create_key", "hive": "HKLM", "path": "SOFTWARE\\Policies\\Microsoft\\Windows\\StorageSense" },
+        { "type": "reg_set", "hive": "HKLM", "path": "SOFTWARE\\Policies\\Microsoft\\Windows\\StorageSense", "name": "AllowStorageSenseGlobal", "value": 0, "valueType": "DWord" }
+      ]
+    },
+    {
+      "id": "telemetry_minimal",
+      "group": "CUIDADO",
+      "module": "telemetry",
+      "winverMin": 22000,
+      "title": "Telemetria mínima",
+      "description": "Define o nível de dados de diagnóstico como mínimo permitido pela edição.",
+      "impact": "Em edições Home o Windows pode ignorar ou limitar; não quebra atualizações.",
+      "reversible": "yes",
+      "revertMethod": "registry",
+      "requiresAdmin": true,
+      "dangerous": true,
+      "transactionCritical": true,
+      "tags": ["telemetry", "privacy"],
+      "backupKeys": ["HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\DataCollection"],
+      "notes": ["Requer edição Pro/Enterprise para nível 0.", "Reversível pelo Restore-Plan."],
+      "actions": [
+        { "type": "reg_create_key", "hive": "HKLM", "path": "SOFTWARE\\Policies\\Microsoft\\Windows\\DataCollection" },
+        { "type": "reg_set", "hive": "HKLM", "path": "SOFTWARE\\Policies\\Microsoft\\Windows\\DataCollection", "name": "AllowTelemetry", "value": 0, "valueType": "DWord" }
+      ]
+    },
+    {
+      "id": "activity_history_off",
+      "group": "CUIDADO",
+      "module": "telemetry",
+      "winverMin": 22000,
+      "title": "Desativar histórico de atividades",
+      "description": "Interrompe o registro e o envio do histórico de atividades.",
+      "impact": "A linha do tempo de atividades deixa de existir.",
+      "reversible": "yes",
+      "revertMethod": "registry",
+      "requiresAdmin": true,
+      "dangerous": true,
+      "transactionCritical": true,
+      "tags": ["telemetry", "privacy"],
+      "backupKeys": ["HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\System"],
+      "notes": ["Reversível pelo Restore-Plan."],
+      "actions": [
+        { "type": "reg_create_key", "hive": "HKLM", "path": "SOFTWARE\\Policies\\Microsoft\\Windows\\System" },
+        { "type": "reg_set", "hive": "HKLM", "path": "SOFTWARE\\Policies\\Microsoft\\Windows\\System", "name": "EnableActivityFeed", "value": 0, "valueType": "DWord" },
+        { "type": "reg_set", "hive": "HKLM", "path": "SOFTWARE\\Policies\\Microsoft\\Windows\\System", "name": "PublishUserActivities", "value": 0, "valueType": "DWord" },
+        { "type": "reg_set", "hive": "HKLM", "path": "SOFTWARE\\Policies\\Microsoft\\Windows\\System", "name": "UploadUserActivities", "value": 0, "valueType": "DWord" }
       ]
     },
     {
       "id": "copilot_remove",
       "group": "AVANÇADO",
-      "winverMin": 22000,
+      "module": "apps",
+      "winverMin": 22621,
       "title": "Remover Microsoft Copilot",
-      "description": "Remove pacotes Appx relacionados ao Copilot",
-      "impact": "Alto - Recurso recente do Windows 11",
-      "reversible": true,
-      "revertMethod": "store-or-backup",
+      "description": "Remove os pacotes Appx do Copilot quando presentes.",
+      "impact": "O assistente de IA integrado deixa de estar disponível.",
+      "reversible": "partial",
+      "revertMethod": "store",
       "requiresAdmin": true,
       "dangerous": true,
       "transactionCritical": true,
-      "tags": ["ai", "copilot", "appx"],
+      "tags": ["ai", "copilot", "apps"],
       "backupKeys": [],
-      "notes": ["Pode ser reinstalado pela Microsoft Store", "Nem sempre reversível 100% por script"],
+      "notes": [
+        "Pode ser reinstalado pela Microsoft Store em versões futuras.",
+        "Rollback automático de Appx é parcial; use o ponto de restauração se necessário."
+      ],
       "actions": [
-        {"type": "appx_remove", "name": "Microsoft.WindowsCopilot", "allUsers": false},
-        {"type": "appx_remove", "name": "Microsoft.Copilot", "allUsers": false}
+        { "type": "appx_remove", "name": "Microsoft.WindowsCopilot", "allUsers": false },
+        { "type": "appx_remove", "name": "Microsoft.Copilot", "allUsers": false }
       ]
     },
     {
       "id": "recall_disable",
       "group": "AVANÇADO",
-      "winverMin": 22621,
+      "module": "edgeai",
+      "winverMin": 26100,
       "title": "Desativar Windows Recall",
-      "description": "Desativa recurso Recall se presente",
-      "impact": "Alto - Recurso de IA recente",
-      "reversible": true,
-      "revertMethod": "feature",
+      "description": "Aplica política que impede a análise e o armazenamento de dados do Recall.",
+      "impact": "O Recall deixa de capturar e sugerir conteúdo.",
+      "reversible": "yes",
+      "revertMethod": "registry",
       "requiresAdmin": true,
       "dangerous": true,
       "transactionCritical": true,
-      "tags": ["ai", "recall"],
-      "backupKeys": [
-        "HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsAI"
-      ],
-      "notes": ["Disponível em builds específicas", "Reversível se reabilitado"],
+      "tags": ["ai", "recall", "privacy"],
+      "backupKeys": ["HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsAI"],
+      "notes": ["Aplicável apenas em builds com o recurso.", "Reversível pelo Restore-Plan."],
       "actions": [
-        {"type": "reg_create_key", "hive": "HKLM", "path": "SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsAI"},
-        {"type": "reg_set", "hive": "HKLM", "path": "SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsAI", "name": "DisableAIDataAnalysis", "value": 1, "type": "DWord"}
+        { "type": "reg_create_key", "hive": "HKLM", "path": "SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsAI" },
+        { "type": "reg_set", "hive": "HKLM", "path": "SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsAI", "name": "DisableAIDataAnalysis", "value": 1, "valueType": "DWord" }
+      ]
+    },
+    {
+      "id": "click_to_do_off",
+      "group": "AVANÇADO",
+      "module": "edgeai",
+      "winverMin": 26100,
+      "title": "Desativar Click to Do",
+      "description": "Desativa a plataforma de ações inteligentes sobre conteúdo na tela.",
+      "impact": "O recurso de ações rápidas de IA deixa de aparecer.",
+      "reversible": "yes",
+      "revertMethod": "registry",
+      "requiresAdmin": true,
+      "dangerous": true,
+      "transactionCritical": true,
+      "tags": ["ai", "privacy"],
+      "backupKeys": ["HKCU:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\SmartActionPlatform"],
+      "notes": ["Reversível pelo Restore-Plan."],
+      "actions": [
+        { "type": "reg_create_key", "hive": "HKCU", "path": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\SmartActionPlatform\\SmartClipboard" },
+        { "type": "reg_set", "hive": "HKCU", "path": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\SmartActionPlatform\\SmartClipboard", "name": "Disabled", "value": 1, "valueType": "DWord" }
+      ]
+    },
+    {
+      "id": "telemetry_tasks_disable",
+      "group": "AVANÇADO",
+      "module": "telemetry",
+      "winverMin": 22000,
+      "title": "Desativar tarefas de telemetria",
+      "description": "Desativa tarefas agendadas de coleta de dados de compatibilidade e experiência.",
+      "impact": "Pode atrasar diagnósticos de compatibilidade e relatórios de experiência.",
+      "reversible": "yes",
+      "revertMethod": "task",
+      "requiresAdmin": true,
+      "dangerous": true,
+      "transactionCritical": true,
+      "tags": ["telemetry", "tasks"],
+      "backupKeys": [],
+      "notes": ["As definições XML das tarefas são exportadas antes da alteração."],
+      "actions": [
+        { "type": "task_disable", "path": "\\Microsoft\\Windows\\Application Experience\\ProgramDataUpdater" },
+        { "type": "task_disable", "path": "\\Microsoft\\Windows\\Application Experience\\Microsoft Compatibility Appraiser" },
+        { "type": "task_disable", "path": "\\Microsoft\\Windows\\Customer Experience Improvement Program\\Consolidator" },
+        { "type": "task_disable", "path": "\\Microsoft\\Windows\\Feedback\\Siuf\\DmClient" },
+        { "type": "task_disable", "path": "\\Microsoft\\Windows\\Autochk\\Proxy" },
+        { "type": "task_disable", "path": "\\Microsoft\\Windows\\DiskDiagnostic\\Microsoft-Windows-DiskDiagnosticDataCollector" }
       ]
     }
   ]
