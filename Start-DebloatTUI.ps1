@@ -5,7 +5,7 @@
 param()
 
 $ErrorActionPreference = 'Stop'
-$Root = Split-Path -Parent $MyInvocation.MyCommand.Path
+$Root = if ($PSScriptRoot) { $PSScriptRoot } else { Split-Path -Parent $MyInvocation.MyCommand.Path }
 
 . (Join-Path $Root 'lib\Tui.ps1')
 . (Join-Path $Root 'lib\Widgets.ps1')
@@ -44,7 +44,7 @@ function Filter-WhitelistedItems {
             $safe.Add($item)
         }
     }
-    $script:App.Items = @($safe)
+    $script:App.Items = $safe.ToArray()
 }
 
 function Invoke-AppFlow {
@@ -128,15 +128,17 @@ if ((Get-WindowsBuild) -lt 22000) {
     exit 1
 }
 
-$script:App = New-AppState -Root $Root
-Filter-WhitelistedItems
-
 $summary = $null
+$script:App = $null
+$tuiStarted = $false
 try {
+    $script:App = New-AppState -Root $Root
+    Filter-WhitelistedItems
     Tui-Init
+    $tuiStarted = $true
     $summary = Invoke-AppFlow
 } catch {
-    try { Tui-Close } catch { }
+    if ($tuiStarted) { try { Tui-Close } catch { }; $tuiStarted = $false }
     Write-Host ''
     Write-Host '  Erro inesperado:' -ForegroundColor Red
     Write-Host ("  " + $_.Exception.Message) -ForegroundColor DarkGray
@@ -151,7 +153,7 @@ try {
     Read-Host '  Pressione Enter para sair'
     exit 1
 } finally {
-    try { Tui-Close } catch { }
+    if ($tuiStarted) { try { Tui-Close } catch { } }
 }
 
 Write-PlainSummary -Summary $summary
