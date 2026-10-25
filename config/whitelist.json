@@ -1,0 +1,29 @@
+{
+  "version": "1.0.0",
+  "description": "Whitelist de componentes NUNCA tocados pelo CleanWinTUI",
+  "appx": [
+    "Microsoft.WindowsStore",
+    "Microsoft.StorePurchaseApp",
+    "Microsoft.Windows.SecHealthUI",
+    "Microsoft.Windows.SecurityHealthHost",
+    "Microsoft.WindowsCalculator",
+    "Microsoft.WindowsNotepad",
+    "Microsoft.ScreenSketch",
+    "Microsoft.Paint",
+    "Microsoft.Photos"
+  ],
+  "registryKeys": [
+    "HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\WindowsUpdate",
+    "HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate",
+    "HKLM:\\SYSTEM\\CurrentControlSet\\Services\\wuauserv",
+    "HKLM:\\SYSTEM\\CurrentControlSet\\Services\\WinDefend"
+  ],
+  "services": [
+    "wuauserv",
+    "WinDefend",
+    "MpsSvc",
+    "CryptSvc"
+  ],
+  "features": [],
+  "tasks": []
+}

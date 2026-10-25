@@ -1,0 +1,259 @@
+{
+  "version": "1.0.0",
+  "items": [
+    {
+      "id": "uwp_getstarted",
+      "group": "SEGURO",
+      "winverMin": 22000,
+      "title": "Get Started",
+      "description": "App UWP 'Get Started' redundante",
+      "impact": "Muito baixo",
+      "reversible": true,
+      "revertMethod": "store",
+      "requiresAdmin": true,
+      "dangerous": false,
+      "transactionCritical": false,
+      "tags": ["apps", "uwp"],
+      "backupKeys": [],
+      "notes": ["Reinstalável pela Microsoft Store"],
+      "actions": [
+        {"type": "appx_remove", "name": "Microsoft.Getstarted", "allUsers": false}
+      ]
+    },
+    {
+      "id": "uwp_bing_weather",
+      "group": "SEGURO",
+      "winverMin": 22000,
+      "title": "Bing Weather",
+      "description": "App UWP Bing Weather",
+      "impact": "Muito baixo",
+      "reversible": true,
+      "revertMethod": "store",
+      "requiresAdmin": true,
+      "dangerous": false,
+      "transactionCritical": false,
+      "tags": ["apps", "uwp"],
+      "backupKeys": [],
+      "notes": ["Reinstalável pela Microsoft Store"],
+      "actions": [
+        {"type": "appx_remove", "name": "Microsoft.BingWeather", "allUsers": false}
+      ]
+    },
+    {
+      "id": "uwp_bing_news",
+      "group": "SEGURO",
+      "winverMin": 22000,
+      "title": "Bing News",
+      "description": "App UWP Bing News",
+      "impact": "Muito baixo",
+      "reversible": true,
+      "revertMethod": "store",
+      "requiresAdmin": true,
+      "dangerous": false,
+      "transactionCritical": false,
+      "tags": ["apps", "uwp"],
+      "backupKeys": [],
+      "notes": ["Reinstalável pela Microsoft Store"],
+      "actions": [
+        {"type": "appx_remove", "name": "Microsoft.BingNews", "allUsers": false}
+      ]
+    },
+    {
+      "id": "tips_suggestions",
+      "group": "SEGURO",
+      "winverMin": 22000,
+      "title": "Dicas, truques e sugestões",
+      "description": "Desativa dicas e sugestões do Windows",
+      "impact": "Muito baixo",
+      "reversible": true,
+      "revertMethod": "registry",
+      "requiresAdmin": true,
+      "dangerous": false,
+      "transactionCritical": false,
+      "tags": ["telemetry", "tips"],
+      "backupKeys": [
+        "HKCU:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager"
+      ],
+      "notes": ["Reversível via registro"],
+      "actions": [
+        {"type": "reg_set", "hive": "HKCU", "path": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager", "name": "SubscribedContent-338388Enabled", "value": 0, "type": "DWord"},
+        {"type": "reg_set", "hive": "HKCU", "path": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager", "name": "SubscribedContent-310093Enabled", "value": 0, "type": "DWord"},
+        {"type": "reg_set", "hive": "HKCU", "path": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager", "name": "SoftLandingEnabled", "value": 0, "type": "DWord"}
+      ]
+    },
+    {
+      "id": "ads_experience",
+      "group": "SEGURO",
+      "winverMin": 22000,
+      "title": "Experiência com anúncios",
+      "description": "Desativa anúncios e conteúdo sugerido",
+      "impact": "Muito baixo",
+      "reversible": true,
+      "revertMethod": "registry",
+      "requiresAdmin": true,
+      "dangerous": false,
+      "transactionCritical": false,
+      "tags": ["ads", "telemetry"],
+      "backupKeys": [
+        "HKCU:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\AdvertisingInfo",
+        "HKCU:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager"
+      ],
+      "notes": ["Reversível via registro"],
+      "actions": [
+        {"type": "reg_set", "hive": "HKCU", "path": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\AdvertisingInfo", "name": "Enabled", "value": 0, "type": "DWord"},
+        {"type": "reg_set", "hive": "HKCU", "path": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager", "name": "SubscribedContent-353694Enabled", "value": 0, "type": "DWord"}
+      ]
+    },
+    {
+      "id": "explorer_classic_context_menu",
+      "group": "OPCIONAL",
+      "winverMin": 22000,
+      "title": "Menu de contexto clássico",
+      "description": "Restaura menu de contexto estilo Windows 10",
+      "impact": "Baixo",
+      "reversible": true,
+      "revertMethod": "registry",
+      "requiresAdmin": true,
+      "dangerous": false,
+      "transactionCritical": false,
+      "tags": ["explorer", "ui"],
+      "backupKeys": [
+        "HKCU:\\Software\\Classes\\CLSID\\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\\InprocServer32"
+      ],
+      "notes": ["Requer logoff/explorer restart"],
+      "actions": [
+        {"type": "reg_create_key", "hive": "HKCU", "path": "Software\\Classes\\CLSID\\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\\InprocServer32"},
+        {"type": "reg_set", "hive": "HKCU", "path": "Software\\Classes\\CLSID\\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\\InprocServer32", "name": "(Default)", "value": "", "type": "String"}
+      ]
+    },
+    {
+      "id": "widgets_hide",
+      "group": "OPCIONAL",
+      "winverMin": 22000,
+      "title": "Ocultar Widgets",
+      "description": "Desativa e oculta Widgets da barra de tarefas",
+      "impact": "Baixo",
+      "reversible": true,
+      "revertMethod": "registry",
+      "requiresAdmin": true,
+      "dangerous": false,
+      "transactionCritical": false,
+      "tags": ["explorer", "taskbar"],
+      "backupKeys": [
+        "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced"
+      ],
+      "notes": ["Reversível"],
+      "actions": [
+        {"type": "reg_set", "hive": "HKCU", "path": "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced", "name": "TaskbarDa", "value": 0, "type": "DWord"}
+      ]
+    },
+    {
+      "id": "bing_search_disable",
+      "group": "OPCIONAL",
+      "winverMin": 22000,
+      "title": "Desativar Bing na busca",
+      "description": "Remove sugestões web Bing da pesquisa do Windows",
+      "impact": "Baixo",
+      "reversible": true,
+      "revertMethod": "registry",
+      "requiresAdmin": true,
+      "dangerous": false,
+      "transactionCritical": false,
+      "tags": ["search", "bing"],
+      "backupKeys": [
+        "HKCU:\\SOFTWARE\\Policies\\Microsoft\\Windows\\Explorer",
+        "HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\Windows Search"
+      ],
+      "notes": ["Reversível"],
+      "actions": [
+        {"type": "reg_create_key", "hive": "HKCU", "path": "SOFTWARE\\Policies\\Microsoft\\Windows\\Explorer"},
+        {"type": "reg_set", "hive": "HKCU", "path": "SOFTWARE\\Policies\\Microsoft\\Windows\\Explorer", "name": "DisableSearchBoxSuggestions", "value": 1, "type": "DWord"}
+      ]
+    },
+    {
+      "id": "fast_startup_disable",
+      "group": "CUIDADO",
+      "winverMin": 22000,
+      "title": "Desativar Inicialização Rápida",
+      "description": "Desativa Fast Startup (pode afetar dual-boot)",
+      "impact": "Médio - Afeta dual-boot e alguns cenários",
+      "reversible": true,
+      "revertMethod": "registry",
+      "requiresAdmin": true,
+      "dangerous": true,
+      "transactionCritical": true,
+      "tags": ["system", "boot"],
+      "backupKeys": [
+        "HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Power"
+      ],
+      "notes": ["Em dual-boot pode impedir acesso a outras partições", "Requer reinicialização"],
+      "actions": [
+        {"type": "reg_set", "hive": "HKLM", "path": "SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Power", "name": "HiberbootEnabled", "value": 0, "type": "DWord"}
+      ]
+    },
+    {
+      "id": "delivery_optimization_disable",
+      "group": "CUIDADO",
+      "winverMin": 22000,
+      "title": "Desativar Delivery Optimization",
+      "description": "Impede compartilhamento de atualizações com outros PCs",
+      "impact": "Médio",
+      "reversible": true,
+      "revertMethod": "registry",
+      "requiresAdmin": true,
+      "dangerous": true,
+      "transactionCritical": true,
+      "tags": ["updates"],
+      "backupKeys": [
+        "HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeliveryOptimization"
+      ],
+      "notes": ["Reversível"],
+      "actions": [
+        {"type": "reg_create_key", "hive": "HKLM", "path": "SOFTWARE\\Policies\\Microsoft\\Windows\\DeliveryOptimization"},
+        {"type": "reg_set", "hive": "HKLM", "path": "SOFTWARE\\Policies\\Microsoft\\Windows\\DeliveryOptimization", "name": "DODownloadMode", "value": 0, "type": "DWord"}
+      ]
+    },
+    {
+      "id": "copilot_remove",
+      "group": "AVANÇADO",
+      "winverMin": 22000,
+      "title": "Remover Microsoft Copilot",
+      "description": "Remove pacotes Appx relacionados ao Copilot",
+      "impact": "Alto - Recurso recente do Windows 11",
+      "reversible": true,
+      "revertMethod": "store-or-backup",
+      "requiresAdmin": true,
+      "dangerous": true,
+      "transactionCritical": true,
+      "tags": ["ai", "copilot", "appx"],
+      "backupKeys": [],
+      "notes": ["Pode ser reinstalado pela Microsoft Store", "Nem sempre reversível 100% por script"],
+      "actions": [
+        {"type": "appx_remove", "name": "Microsoft.WindowsCopilot", "allUsers": false},
+        {"type": "appx_remove", "name": "Microsoft.Copilot", "allUsers": false}
+      ]
+    },
+    {
+      "id": "recall_disable",
+      "group": "AVANÇADO",
+      "winverMin": 22621,
+      "title": "Desativar Windows Recall",
+      "description": "Desativa recurso Recall se presente",
+      "impact": "Alto - Recurso de IA recente",
+      "reversible": true,
+      "revertMethod": "feature",
+      "requiresAdmin": true,
+      "dangerous": true,
+      "transactionCritical": true,
+      "tags": ["ai", "recall"],
+      "backupKeys": [
+        "HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsAI"
+      ],
+      "notes": ["Disponível em builds específicas", "Reversível se reabilitado"],
+      "actions": [
+        {"type": "reg_create_key", "hive": "HKLM", "path": "SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsAI"},
+        {"type": "reg_set", "hive": "HKLM", "path": "SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsAI", "name": "DisableAIDataAnalysis", "value": 1, "type": "DWord"}
+      ]
+    }
+  ]
+}
